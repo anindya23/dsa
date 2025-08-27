@@ -24,7 +24,7 @@ class Solutions:
                 self.dfs2(graph, neighbor)
 
 
-    # Using stack as queue
+    # Using list as queue
     def bfs1(self, graph, source):
         queue = [source]
         while queue:
@@ -55,6 +55,15 @@ class Solutions:
                 if neighbor not in visited:
                     dq.append(neighbor)
 
+    def has_path(self, src, dest, graph):
+        if src == dest:
+            return True
+        status = False
+        for neighbor in graph[src]:
+            status = status or self.has_path(neighbor, dest, graph)
+
+        return status
+
 
 if __name__ == '__main__':
     graph1 = {
@@ -73,9 +82,22 @@ if __name__ == '__main__':
         4: [2]
     }
 
+    dir_graph = {
+        'A': ['B', 'C'],
+        'B': ['F', 'D'],
+        'C': [],
+        'D': ['G', 'I'],
+        'E': ['H'],
+        'F': ['E'],
+        'G': [],
+        'H': ['G'],
+        'I': []
+    }
+
     obj = Solutions()
 
     # obj.dfs1(graph1, "A")
     # obj.dfs2(graph1, "A")
     # obj.bfs1(graph1, "A")
-    obj.bfs2(graph1, 'A')
+    # obj.bfs2(graph1, 'A')
+    print(obj.has_path('A', 'G', dir_graph))
